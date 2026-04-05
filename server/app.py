@@ -14,7 +14,11 @@ def home():
 @app.get("/reset")
 def reset():
     return env.reset()
-
+    
+@app.post("/reset")
+def reset():
+    return env.reset()
+    
 @app.post("/step")
 def step(action: dict):
     action_obj = Action(**action)
