@@ -1,0 +1,18 @@
+[project]
+name = "email-triage-env"
+version = "0.1.0"
+description = "Email triage OpenEnv environment"
+authors = [
+    { name="Akashdeep Singh" }
+]
+dependencies = [
+    "openenv-core",
+    "pydantic"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+server = "server.app:main"
