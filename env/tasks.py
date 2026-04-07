@@ -4,7 +4,8 @@ TASKS = [
         "email": "Win a free iPhone!!! Click here!!!",
         "expected": {
             "label": "spam",
-            "priority": 1
+            "priority": 1,
+            "requires": []
         }
     },
     {
@@ -12,7 +13,8 @@ TASKS = [
         "email": "Client meeting tomorrow at 10 AM",
         "expected": {
             "label": "important",
-            "priority": 5
+            "priority": 5,
+            "requires": []
         }
     },
     {
@@ -20,7 +22,17 @@ TASKS = [
         "email": "I have a billing issue and want to schedule a call",
         "expected": {
             "label": "important",
-            "priority": 5
+            "priority": 5,
+            "requires": ["sorry", "call"]
+        }
+    },
+    {
+        "name": "support_request",
+        "email": "My account is locked, please help",
+        "expected": {
+            "label": "important",
+            "priority": 5,
+            "requires": ["sorry", "help"]
         }
     }
 ]
