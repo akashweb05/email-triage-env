@@ -24,7 +24,7 @@ class EmailTriageEnv:
     def step(self, action: Action):
         expected = self.current_task["expected"]
 
-        reward = 0
+        reward = 0.0
 
         if action.label == expected["label"]:
             reward += 0.4
@@ -32,11 +32,12 @@ class EmailTriageEnv:
         if action.priority == expected["priority"]:
             reward += 0.3
 
-        if "sorry" in action.reply.lower():
-            reward += 0.15
+        for keyword in expected.get("requires", []):
+            if keyword in action.reply.lower():
+                reward += 0.15
 
-        if "call" in action.reply.lower():
-            reward += 0.15
+        reward = min(reward, 0.95)
+        reward = max(reward, 0.05)
 
         return {
             "observation": Observation(
@@ -46,7 +47,7 @@ class EmailTriageEnv:
             ),
             "reward": reward,
             "done": True,
-            "info": {}
+            "info": {"task": self.current_task["name"]}
         }
 
     def state(self):
