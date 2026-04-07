@@ -5,7 +5,7 @@ TASKS = [
         "expected": {
             "label": "spam",
             "priority": 1,
-            "requires": []
+            "requires": ["spam"]
         }
     },
     {
@@ -14,7 +14,7 @@ TASKS = [
         "expected": {
             "label": "important",
             "priority": 5,
-            "requires": []
+            "requires": ["meeting"]
         }
     },
     {
