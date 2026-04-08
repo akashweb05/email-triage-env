@@ -16,7 +16,7 @@ class EmailTriageEnv:
                 sender="unknown",
                 history=[]
             ),
-            "reward": 0.0,
+            "reward": 0.1,
             "done": False,
             "info": {}
         }
