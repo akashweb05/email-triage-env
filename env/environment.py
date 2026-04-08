@@ -23,28 +23,39 @@ class EmailTriageEnv:
 
     def step(self, action: Action):
         expected = self.current_task["expected"]
+        task_name = self.current_task["name"]
 
-        reward = 0.1
+        reward = 0.2
 
         if action.label == expected["label"]:
-            reward += 0.3
+            reward += 0.4
         else:
-            reward += 0.1
+            reward -= 0.1
 
         if action.priority == expected["priority"]:
-            reward += 0.3
+            reward += 0.2
         else:
-            reward += 0.1
+            reward -= 0.05
 
-        keyword_hits = sum(
-            1 for kw in expected.get("requires", [])
-            if kw in action.reply.lower()
-        )
+        requires = expected.get("requires", [])
+        reply_text = action.reply.lower()
 
-        if expected.get("requires"):
-            reward += 0.3 * (keyword_hits / len(expected["requires"]))
+        keyword_hits = sum(1 for kw in requires if kw in reply_text)
 
-        reward = max(0.1, min(0.95, reward))
+        if requires:
+            ratio = keyword_hits / len(requires)
+            reward += 0.3 * ratio
+
+        if task_name == "easy_spam":
+            reward += 0.05 if "spam" in reply_text else 0
+
+        elif task_name == "medium_meeting":
+            reward += 0.05 if "meeting" in reply_text else 0
+
+        elif task_name in ["hard_multi", "support_request"]:
+            reward += 0.05 if ("call" in reply_text or "help" in reply_text) else 0
+
+        reward = max(0.11, min(0.94, reward))
 
         return {
             "observation": Observation(
@@ -54,7 +65,7 @@ class EmailTriageEnv:
             ),
             "reward": float(reward),
             "done": True,
-            "info": {"task": self.current_task["name"]}
+            "info": {"task": task_name}
         }
 
     def state(self):

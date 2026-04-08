@@ -5,7 +5,7 @@ TASKS = [
         "expected": {
             "label": "spam",
             "priority": 1,
-            "requires": ["spam"]
+            "requires": ["spam", "free", "click"]
         }
     },
     {
@@ -13,8 +13,8 @@ TASKS = [
         "email": "Client meeting tomorrow at 10 AM",
         "expected": {
             "label": "important",
-            "priority": 5,
-            "requires": ["meeting"]
+            "priority": 4,
+            "requires": ["meeting", "tomorrow"]
         }
     },
     {
@@ -23,7 +23,7 @@ TASKS = [
         "expected": {
             "label": "important",
             "priority": 5,
-            "requires": ["sorry", "call"]
+            "requires": ["billing", "call"]
         }
     },
     {
@@ -32,7 +32,7 @@ TASKS = [
         "expected": {
             "label": "important",
             "priority": 5,
-            "requires": ["sorry", "help"]
+            "requires": ["account", "help"]
         }
     }
 ]
