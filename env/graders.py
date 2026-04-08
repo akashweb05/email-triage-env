@@ -2,13 +2,13 @@ from env.models import Action
 
 def grade_easy_spam(action: Action, expected: dict) -> float:
     """Grader for easy_spam task"""
-    score = 0.1
+    score = 0.15
     
     if action.label == expected["label"]:
-        score += 0.3
+        score += 0.25
     
     if action.priority == expected["priority"]:
-        score += 0.2
+        score += 0.25
     
     requires = expected.get("requires", [])
     reply_text = action.reply.lower()
@@ -16,20 +16,21 @@ def grade_easy_spam(action: Action, expected: dict) -> float:
     
     if requires:
         ratio = keyword_hits / len(requires)
-        score += 0.3 * ratio
+        score += 0.25 * ratio
     
-    return score
+    # Ensure score is strictly within (0, 1)
+    return max(0.01, min(0.99, score))
 
 
 def grade_medium_meeting(action: Action, expected: dict) -> float:
     """Grader for medium_meeting task"""
-    score = 0.1
+    score = 0.15
     
     if action.label == expected["label"]:
-        score += 0.3
+        score += 0.25
     
     if action.priority == expected["priority"]:
-        score += 0.2
+        score += 0.25
     
     requires = expected.get("requires", [])
     reply_text = action.reply.lower()
@@ -37,20 +38,21 @@ def grade_medium_meeting(action: Action, expected: dict) -> float:
     
     if requires:
         ratio = keyword_hits / len(requires)
-        score += 0.3 * ratio
+        score += 0.25 * ratio
     
-    return score
+    # Ensure score is strictly within (0, 1)
+    return max(0.01, min(0.99, score))
 
 
 def grade_hard_multi(action: Action, expected: dict) -> float:
     """Grader for hard_multi task"""
-    score = 0.1
+    score = 0.15
     
     if action.label == expected["label"]:
-        score += 0.3
+        score += 0.25
     
     if action.priority == expected["priority"]:
-        score += 0.2
+        score += 0.25
     
     requires = expected.get("requires", [])
     reply_text = action.reply.lower()
@@ -58,9 +60,10 @@ def grade_hard_multi(action: Action, expected: dict) -> float:
     
     if requires:
         ratio = keyword_hits / len(requires)
-        score += 0.3 * ratio
+        score += 0.25 * ratio
     
-    return score
+    # Ensure score is strictly within (0, 1)
+    return max(0.01, min(0.99, score))
 
 
 GRADERS = {

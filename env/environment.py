@@ -16,7 +16,7 @@ class EmailTriageEnv:
                 sender="unknown",
                 history=[]
             ),
-            "reward": 0.1,
+            "reward": 0.5,
             "done": False,
             "info": {}
         }
@@ -30,12 +30,12 @@ class EmailTriageEnv:
             reward = self.current_task["grader"](action, expected)
         else:
             # Fallback reward calculation
-            reward = 0.2
+            reward = 0.3
 
             if action.label == expected["label"]:
-                reward += 0.4
+                reward += 0.2
             else:
-                reward -= 0.1
+                reward -= 0.05
 
             if action.priority == expected["priority"]:
                 reward += 0.2
@@ -49,7 +49,7 @@ class EmailTriageEnv:
 
             if requires:
                 ratio = keyword_hits / len(requires)
-                reward += 0.3 * ratio
+                reward += 0.2 * ratio
 
             if task_name == "easy_spam":
                 reward += 0.05 if "spam" in reply_text else 0
@@ -60,7 +60,7 @@ class EmailTriageEnv:
             elif task_name in ["hard_multi", "support_request"]:
                 reward += 0.05 if ("call" in reply_text or "help" in reply_text) else 0
 
-            reward = max(0.11, min(0.94, reward))
+            reward = max(0.05, min(0.95, reward))
 
         return {
             "observation": Observation(
