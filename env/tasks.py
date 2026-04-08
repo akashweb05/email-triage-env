@@ -30,15 +30,5 @@ TASKS = [
             "requires": ["billing", "call"]
         },
         "grader": GRADERS["hard_multi"]
-    },
-    {
-        "name": "support_request",
-        "email": "My account is locked, please help",
-        "expected": {
-            "label": "important",
-            "priority": 5,
-            "requires": ["account", "help"]
-        },
-        "grader": GRADERS["support_request"]
     }
 ]

@@ -56,12 +56,12 @@ This environment provides a **standardized benchmark** for evaluating such AI sy
 
 The reward function provides **dense feedback**:
 
-* ✅ Correct classification → +0.4
-* ✅ Correct priority → +0.3
+* ✅ Correct classification → +0.3
+* ✅ Correct priority → +0.2
 * ✅ Relevant reply → +0.3
-* ❌ Incorrect actions → penalties
+* Base score: 0.1
 
-👉 Total reward is normalized between **0.0 and 1.0**
+👉 Total reward is normalized between **0.1 and 0.9**
 
 ---
 
