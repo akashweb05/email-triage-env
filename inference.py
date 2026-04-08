@@ -10,14 +10,14 @@ except:
 from env.environment import EmailTriageEnv
 from env.models import Action
 
-API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openai.com/v1")
-MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4.1-mini")
-HF_TOKEN = os.getenv("HF_TOKEN")
+API_BASE_URL = os.environ.get("API_BASE_URL", "https://api.openai.com/v1")
+MODEL_NAME = os.environ.get("MODEL_NAME", "gpt-4.1-mini")
+API_KEY = os.environ.get("API_KEY")
 
-# only initialize if valid OpenAI key (sk-)
+# only initialize if valid API_KEY is provided
 client = None
-if USE_OPENAI and HF_TOKEN and HF_TOKEN.startswith("sk-"):
-    client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
+if USE_OPENAI and API_KEY:
+    client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
 
 env = EmailTriageEnv()
 
