@@ -1,5 +1,3 @@
-from env.graders import GRADERS
-
 TASKS = [
     {
         "name": "easy_spam",
@@ -9,7 +7,7 @@ TASKS = [
             "priority": 1,
             "requires": ["spam", "free", "click"]
         },
-        "grader": GRADERS["easy_spam"]
+        "grader": "easy_spam"
     },
     {
         "name": "medium_meeting",
@@ -19,7 +17,7 @@ TASKS = [
             "priority": 4,
             "requires": ["meeting", "tomorrow"]
         },
-        "grader": GRADERS["medium_meeting"]
+        "grader": "medium_meeting"
     },
     {
         "name": "hard_multi",
@@ -29,6 +27,16 @@ TASKS = [
             "priority": 5,
             "requires": ["billing", "call"]
         },
-        "grader": GRADERS["hard_multi"]
+        "grader": "hard_multi"
+    },
+    {
+        "name": "support_request",
+        "email": "My account is locked, please help",
+        "expected": {
+            "label": "important",
+            "priority": 5,
+            "requires": ["account", "help"]
+        },
+        "grader": "support_request"
     }
 ]

@@ -1,5 +1,6 @@
 from env.models import Observation, Action
 from env.tasks import TASKS
+from env.graders import GRADERS
 import random
 
 class EmailTriageEnv:
@@ -26,8 +27,9 @@ class EmailTriageEnv:
         task_name = self.current_task["name"]
         
         # Use grader if available
-        if "grader" in self.current_task:
-            reward = self.current_task["grader"](action, expected)
+        grader_key = self.current_task.get("grader")
+        if grader_key and grader_key in GRADERS:
+            reward = GRADERS[grader_key](action, expected)
         else:
             # Fallback reward calculation
             reward = 0.3
