@@ -1,3 +1,12 @@
+---
+license: mit
+title: open-env
+sdk: docker
+emoji: 🚀
+colorFrom: pink
+colorTo: purple
+short_description: open-env email triage
+---
 # 📧 Email Triage OpenEnv Environment
 
 ## 🚀 Overview
