@@ -18,8 +18,8 @@ def grade_easy_spam(action: Action, expected: dict) -> float:
         ratio = keyword_hits / len(requires)
         score += 0.25 * ratio
     
-    # Ensure score is strictly within (0, 1)
-    return max(0.01, min(0.99, score))
+    # Ensure score is strictly within (0, 1) and avoids rounding to 0.00 or 1.00
+    return max(0.005, min(0.994, score))
 
 
 def grade_medium_meeting(action: Action, expected: dict) -> float:
@@ -40,8 +40,8 @@ def grade_medium_meeting(action: Action, expected: dict) -> float:
         ratio = keyword_hits / len(requires)
         score += 0.25 * ratio
     
-    # Ensure score is strictly within (0, 1)
-    return max(0.01, min(0.99, score))
+    # Ensure score is strictly within (0, 1) and avoids rounding to 0.00 or 1.00
+    return max(0.005, min(0.994, score))
 
 
 def grade_hard_multi(action: Action, expected: dict) -> float:
@@ -62,8 +62,8 @@ def grade_hard_multi(action: Action, expected: dict) -> float:
         ratio = keyword_hits / len(requires)
         score += 0.25 * ratio
     
-    # Ensure score is strictly within (0, 1)
-    return max(0.01, min(0.99, score))
+    # Ensure score is strictly within (0, 1) and avoids rounding to 0.00 or 1.00
+    return max(0.005, min(0.994, score))
 
 
 def grade_support_request(action: Action, expected: dict) -> float:
@@ -84,8 +84,8 @@ def grade_support_request(action: Action, expected: dict) -> float:
         ratio = keyword_hits / len(requires)
         score += 0.25 * ratio
     
-    # Ensure score is strictly within (0, 1)
-    return max(0.01, min(0.99, score))
+    # Ensure score is strictly within (0, 1) and avoids rounding to 0.00 or 1.00
+    return max(0.005, min(0.994, score))
 
 
 GRADERS = {
