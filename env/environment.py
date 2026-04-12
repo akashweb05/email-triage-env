@@ -1,19 +1,20 @@
 from env.models import Observation, Action
-from env.tasks import TASKS, TASK_LIST, TASKS_WITH_GRADERS, TASK_NAMES_WITH_GRADERS
+from env.tasks import TASKS, TASK_LIST, TASKS_BY_ID, TASKS_WITH_GRADERS, TASK_NAMES_WITH_GRADERS
 import random
 
 class EmailTriageEnv:
     """Email Triage RL Environment with task grading support."""
     
     # Class attributes for task discovery (matches r-vb/bug-triage-env pattern)
-    TASKS = TASKS
+    TASKS = TASKS  # List version for iteration
+    TASKS_DICT = TASKS_BY_ID  # Dict version for lookup
     TASK_LIST = TASK_LIST
-    GRADERS = {task_id: task["grader"] for task_id, task in TASKS.items() if callable(task.get("grader"))}
+    GRADERS = {task_id: task["grader"] for task_id, task in TASKS_BY_ID.items() if callable(task.get("grader"))}
     
     # Explicit class-level metadata for validators
     GRADED_TASK_NAMES = TASK_NAMES_WITH_GRADERS
     NUM_GRADED_TASKS = TASKS_WITH_GRADERS
-    TASK_COUNT = len(TASKS)
+    TASK_COUNT = len(TASKS_BY_ID)
     
     def __init__(self):
         self.current_task = None

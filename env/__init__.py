@@ -9,6 +9,7 @@ from env.environment import EmailTriageEnv
 # Task definitions with explicit grader metadata
 from env.tasks import (
     TASKS,
+    TASKS_BY_ID,
     TASK_LIST,
     TASK_COUNT,
     TASKS_WITH_GRADERS,
@@ -38,8 +39,9 @@ from env.models import (
 __all__ = [
     # Environment
     "EmailTriageEnv",
-    # Tasks - dictionary and list
+    # Tasks - list and dict versions
     "TASKS",
+    "TASKS_BY_ID",
     "TASK_LIST",
     "TASK_COUNT",
     # Graders

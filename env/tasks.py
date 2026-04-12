@@ -7,7 +7,7 @@ Pattern from successful OpenEnv submission: r-vb/bug-triage-env
 from env.graders import GRADERS
 
 # Task definitions with explicit grader specifications
-TASKS = {
+TASKS_DICT = {
     "easy_spam": {
         "id": "easy_spam",
         "name": "Easy Spam Classification",
@@ -143,38 +143,38 @@ TASKS = {
 }
 
 # Ensure all tasks have graders attached
-for task_id, task in TASKS.items():
+for task_id, task in TASKS_DICT.items():
     if "grader" not in task and task_id in GRADERS:
         task["grader"] = GRADERS[task_id]
 
 # Task list for ordered access (like r-vb pattern)
-TASK_LIST = list(TASKS.values())
+TASK_LIST = list(TASKS_DICT.values())
 
 # Count tasks with graders (explicit for validator)
-TASKS_WITH_GRADERS = sum(1 for task in TASKS.values() if callable(task.get("grader")))
+TASKS_WITH_GRADERS = sum(1 for task in TASKS_DICT.values() if callable(task.get("grader")))
 
 # Grader specifications for server endpoints
 GRADER_SPECS = {
     task_id: task.get("graders", [])
-    for task_id, task in TASKS.items()
+    for task_id, task in TASKS_DICT.items()
 }
 
 SINGLE_GRADER_SPECS = {
     task_id: task.get("grader_spec")
-    for task_id, task in TASKS.items()
+    for task_id, task in TASKS_DICT.items()
 }
 
 # Legacy compatibility exports
 GRADED_TASKS = [
     {
-        "name": TASKS[task_id]["name"],
+        "name": TASKS_DICT[task_id]["name"],
         "task_id": task_id,
-        "grader_function": TASKS[task_id]["grader"],
-        "grader_name": TASKS[task_id]["grader_spec"]["name"],
-        "difficulty": TASKS[task_id]["difficulty"],
+        "grader_function": TASKS_DICT[task_id]["grader"],
+        "grader_name": TASKS_DICT[task_id]["grader_spec"]["name"],
+        "difficulty": TASKS_DICT[task_id]["difficulty"],
     }
-    for task_id in TASKS.keys()
-    if callable(TASKS[task_id].get("grader"))
+    for task_id in TASKS_DICT.keys()
+    if callable(TASKS_DICT[task_id].get("grader"))
 ]
 
 # Number of tasks with graders
@@ -184,4 +184,16 @@ NUM_TASKS_WITH_GRADERS = TASKS_WITH_GRADERS
 TASK_NAMES_WITH_GRADERS = [task["id"] for task in TASK_LIST if callable(task.get("grader"))]
 
 # Total task count
-TASK_COUNT = len(TASKS)
+TASK_COUNT = len(TASKS_DICT)
+
+# CRITICAL: Create TASKS that validators can access multiple ways
+# Some validators iterate: for task in TASKS (expects list-like)
+# Some validators use: TASKS[task_id] (expects dict-like)
+# Solution: make TASKS = TASK_LIST but also keep TASKS_DICT accessible
+
+# Use TASK_LIST as the primary TASKS export (works with iteration)
+TASKS = TASK_LIST
+
+# Export both dict and list versions for different access patterns
+# Dict for lookup by task_id
+TASKS_BY_ID = TASKS_DICT

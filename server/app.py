@@ -7,6 +7,7 @@ from env.models import Action
 from env.tasks import (
     TASKS,
     TASK_LIST,
+    TASKS_BY_ID,
     TASK_COUNT,
     TASKS_WITH_GRADERS,
     GRADER_SPECS,
@@ -120,7 +121,7 @@ def grading_config():
     return {
         "grading_enabled": True,
         "num_graded_tasks": _tasks_with_graders(),
-        "graded_task_names": list(TASKS.keys()),
+        "graded_task_names": list(TASKS_BY_ID.keys()),
         "grader_specs": _grader_registry(),
         "single_grader_specs": _single_grader_registry(),
         "grader_registry": {
@@ -131,7 +132,7 @@ def grading_config():
                 "has_grader": callable(task.get("grader")),
                 "entrypoint": task.get("grader_spec", {}).get("entrypoint", ""),
             }
-            for task_id, task in TASKS.items()
+            for task_id, task in TASKS_BY_ID.items()
         }
     }
 
@@ -165,7 +166,7 @@ def tasks_with_graders():
     from env.models import Action
     
     tasks_info = []
-    for task_id, task in TASKS.items():
+    for task_id, task in TASKS_BY_ID.items():
         grader_info = {
             "name": task.get("name", task_id),
             "task_id": task_id,
