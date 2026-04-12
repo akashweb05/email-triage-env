@@ -73,24 +73,39 @@ def get_model_action(email_text):
 
 
 def main():
-    result = env.reset()
-
-    print(f"[START] task=email_triage env=email_env model={MODEL_NAME}")
-
-    rewards = []
-
-    action = get_model_action(result["observation"].email_text)
-
-    result = env.step(action)
-
-    reward = result["reward"]
-    done = result["done"]
-
-    rewards.append(f"{reward:.2f}")
-
-    print(f"[STEP] step=1 action={action} reward={reward:.2f} done={str(done).lower()} error=null")
-
-    print(f"[END] success=true steps=1 rewards={','.join(rewards)}")
+    try:
+        result = env.reset()
+        
+        print(f"[START] task=email_triage env=email-triage model={MODEL_NAME}", flush=True)
+        
+        rewards = []
+        steps_taken = 0
+        success = False
+        score = 0.0
+        
+        # Run one step
+        action = get_model_action(result["observation"].email_text)
+        result = env.step(action)
+        
+        reward = float(result.get("reward", 0.0))
+        done = result.get("done", True)
+        
+        steps_taken = 1
+        rewards.append(reward)
+        
+        # Normalize score to [0, 1]
+        score = min(max(reward, 0.0), 1.0)
+        success = score > 0.0
+        
+        print(f"[STEP] step=1 action={action} reward={reward:.2f} done={str(done).lower()} error=null", flush=True)
+        
+        # Format rewards correctly
+        rewards_str = ",".join(f"{r:.2f}" for r in rewards)
+        print(f"[END] success={str(success).lower()} steps={steps_taken} score={score:.2f} rewards={rewards_str}", flush=True)
+        
+    except Exception as e:
+        print(f"[END] success=false steps=0 score=0.00 rewards=", flush=True)
+        raise
 
 
 if __name__ == "__main__":
