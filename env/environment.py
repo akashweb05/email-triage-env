@@ -9,6 +9,10 @@ class EmailTriageEnv:
     TASKS = TASKS
     GRADERS = {t["name"]: t["grader"] for t in TASKS if "grader" in t}
     
+    # Explicit class-level metadata for validators
+    GRADED_TASK_NAMES = list(GRADERS.keys())
+    NUM_GRADED_TASKS = len(GRADERS)
+    
     def __init__(self):
         self.current_task = None
 
