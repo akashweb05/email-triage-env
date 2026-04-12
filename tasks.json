@@ -1,0 +1,35 @@
+{
+  "version": "1.0",
+  "tasks": [
+    {
+      "name": "easy_spam",
+      "description": "Simple spam classification task",
+      "graded": true,
+      "grader": "env.graders:grade_easy_spam"
+    },
+    {
+      "name": "medium_meeting",
+      "description": "Medium difficulty meeting classification task",
+      "graded": true,
+      "grader": "env.graders:grade_medium_meeting"
+    },
+    {
+      "name": "hard_multi",
+      "description": "Hard difficulty multi-intent classification task",
+      "graded": true,
+      "grader": "env.graders:grade_hard_multi"
+    },
+    {
+      "name": "support_request",
+      "description": "Support request classification task",
+      "graded": true,
+      "grader": "env.graders:grade_support_request"
+    }
+  ],
+  "validation": {
+    "total_tasks": 4,
+    "graded_tasks": 4,
+    "minimum_required": 3,
+    "status": "valid"
+  }
+}

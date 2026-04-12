@@ -66,3 +66,9 @@ GRADED_TASKS = [
         "grader_name": "grade_support_request",
     },
 ]
+
+# Number of tasks with graders
+NUM_TASKS_WITH_GRADERS = len(GRADED_TASKS)
+
+# List of task names that are graded
+TASK_NAMES_WITH_GRADERS = [task["name"] for task in GRADED_TASKS]
