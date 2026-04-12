@@ -1,0 +1,50 @@
+{
+  "tasks": [
+    {
+      "name": "easy_spam",
+      "email": "Win a free iPhone!!! Click here!!!",
+      "has_grader": true,
+      "expected": {
+        "label": "spam",
+        "priority": 1,
+        "requires": ["spam", "free", "click"]
+      }
+    },
+    {
+      "name": "medium_meeting",
+      "email": "Client meeting tomorrow at 10 AM",
+      "has_grader": true,
+      "expected": {
+        "label": "important",
+        "priority": 4,
+        "requires": ["meeting", "tomorrow"]
+      }
+    },
+    {
+      "name": "hard_multi",
+      "email": "I have a billing issue and want to schedule a call",
+      "has_grader": true,
+      "expected": {
+        "label": "important",
+        "priority": 5,
+        "requires": ["billing", "call"]
+      }
+    },
+    {
+      "name": "support_request",
+      "email": "My account is locked, please help",
+      "has_grader": true,
+      "expected": {
+        "label": "important",
+        "priority": 5,
+        "requires": ["account", "help"]
+      }
+    }
+  ],
+  "grading": {
+    "enabled": true,
+    "score_range": [0.005, 0.994],
+    "total_tasks_with_graders": 4,
+    "minimum_required_graders": 3
+  }
+}

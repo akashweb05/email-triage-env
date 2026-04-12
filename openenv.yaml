@@ -1,3 +1,20 @@
 name: email-triage-env
 version: 1.0
 description: Email triage environment
+
+tasks:
+  - name: easy_spam
+    description: Simple spam classification task
+    grading: enabled
+    
+  - name: medium_meeting
+    description: Medium difficulty meeting classification task
+    grading: enabled
+    
+  - name: hard_multi
+    description: Hard difficulty multi-intent classification task
+    grading: enabled
+    
+  - name: support_request
+    description: Support request classification task
+    grading: enabled

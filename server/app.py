@@ -83,6 +83,13 @@ def tasks_with_graders():
         "tasks": tasks_info
     }
 
+@app.get("/tasks-manifest")
+def tasks_manifest():
+    """Return JSON manifest of all tasks with grading info"""
+    import json
+    with open("tasks_manifest.json", "r") as f:
+        return json.load(f)
+
 def main():
     uvicorn.run(app, host="0.0.0.0", port=7860)
 
