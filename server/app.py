@@ -90,6 +90,13 @@ def tasks_manifest():
     with open("tasks_manifest.json", "r") as f:
         return json.load(f)
 
+@app.get("/grading-config")
+def grading_config():
+    """Return grading configuration for validator"""
+    import json
+    with open("grading_config.json", "r") as f:
+        return json.load(f)
+
 def main():
     uvicorn.run(app, host="0.0.0.0", port=7860)
 
