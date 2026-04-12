@@ -3,7 +3,12 @@ from env.tasks import TASKS
 import random
 
 class EmailTriageEnv:
-
+    """Email Triage RL Environment with task grading support."""
+    
+    # Class attributes for task discovery
+    TASKS = TASKS
+    GRADERS = {t["name"]: t["grader"] for t in TASKS if "grader" in t}
+    
     def __init__(self):
         self.current_task = None
 
@@ -75,3 +80,17 @@ class EmailTriageEnv:
 
     def state(self):
         return {"task": self.current_task}
+    
+    def get_tasks_with_graders(self):
+        """Return list of tasks that have graders.
+        
+        Used by validators to discover graded tasks.
+        """
+        return [
+            {
+                "name": task["name"],
+                "has_grader": "grader" in task,
+                "grader_function": task.get("grader").__name__ if "grader" in task else None,
+            }
+            for task in TASKS
+        ]

@@ -27,10 +27,45 @@ def state():
 
 @app.get("/metadata")
 def metadata():
+    from env.models import Action
+    
+    # Build detailed task list with grader info for validator
+    tasks_data = []
+    for task in TASKS:
+        task_info = {
+            "name": task["name"],
+            "description": task.get("description", ""),
+            "has_grader": "grader" in task,
+        }
+        
+        # If task has grader, test it
+        if "grader" in task:
+            try:
+                test_action = Action(
+                    label=task["expected"]["label"],
+                    priority=task["expected"]["priority"],
+                    reply=" ".join(task["expected"].get("requires", []))
+                )
+                score = task["grader"](test_action, task["expected"])
+                task_info["grader_available"] = True
+                task_info["test_score"] = float(score)
+                task_info["score_valid"] = 0 < score < 1
+            except Exception as e:
+                task_info["grader_available"] = False
+                task_info["error"] = str(e)
+        else:
+            task_info["grader_available"] = False
+        
+        tasks_data.append(task_info)
+    
     return {
         "name": "email_triage_env",
         "description": "RL environment for email triage",
-        "tasks": [task["name"] for task in TASKS]
+        "version": "1.0",
+        "tasks": tasks_data,
+        "grading_enabled": True,
+        "total_tasks": len(TASKS),
+        "tasks_with_graders": len([t for t in TASKS if "grader" in t]),
     }
 
 @app.get("/schema")
@@ -47,6 +82,11 @@ def schema():
             "reply": "string"
         }
     }
+
+@app.get("/tasks-info")
+def tasks_info():
+    """Get list of all tasks with grader status for validator discovery."""
+    return env.get_tasks_with_graders()
 
 @app.get("/tasks-with-graders")
 def tasks_with_graders():
