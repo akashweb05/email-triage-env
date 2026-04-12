@@ -1,23 +1,28 @@
 from env.models import Observation, Action
-from env.tasks import TASKS
+from env.tasks import TASKS, TASK_LIST, TASKS_WITH_GRADERS, TASK_NAMES_WITH_GRADERS
 import random
 
 class EmailTriageEnv:
     """Email Triage RL Environment with task grading support."""
     
-    # Class attributes for task discovery
+    # Class attributes for task discovery (matches r-vb/bug-triage-env pattern)
     TASKS = TASKS
-    GRADERS = {t["name"]: t["grader"] for t in TASKS if "grader" in t}
+    TASK_LIST = TASK_LIST
+    GRADERS = {task_id: task["grader"] for task_id, task in TASKS.items() if callable(task.get("grader"))}
     
     # Explicit class-level metadata for validators
-    GRADED_TASK_NAMES = list(GRADERS.keys())
-    NUM_GRADED_TASKS = len(GRADERS)
+    GRADED_TASK_NAMES = TASK_NAMES_WITH_GRADERS
+    NUM_GRADED_TASKS = TASKS_WITH_GRADERS
+    TASK_COUNT = len(TASKS)
     
     def __init__(self):
         self.current_task = None
+        self.task_id = None
 
     def reset(self):
-        self.current_task = random.choice(TASKS)
+        # Select a random task from TASK_LIST
+        self.current_task = random.choice(TASK_LIST)
+        self.task_id = self.current_task.get("id") or self.current_task.get("name")
 
         return {
             "observation": Observation(
@@ -32,10 +37,10 @@ class EmailTriageEnv:
 
     def step(self, action: Action):
         expected = self.current_task["expected"]
-        task_name = self.current_task["name"]
+        task_name = self.current_task.get("name") or self.current_task.get("id", "")
         
         # Use grader if available
-        if "grader" in self.current_task:
+        if callable(self.current_task.get("grader")):
             reward = self.current_task["grader"](action, expected)
         else:
             # Fallback reward calculation
@@ -60,16 +65,16 @@ class EmailTriageEnv:
                 ratio = keyword_hits / len(requires)
                 reward += 0.2 * ratio
 
-            if task_name == "easy_spam":
+            if "spam" in task_name or "easy" in task_name:
                 reward += 0.05 if "spam" in reply_text else 0
 
-            elif task_name == "medium_meeting":
+            elif "meeting" in task_name or "medium" in task_name:
                 reward += 0.05 if "meeting" in reply_text else 0
 
-            elif task_name in ["hard_multi", "support_request"]:
+            elif "multi" in task_name or "support" in task_name or "hard" in task_name:
                 reward += 0.05 if ("call" in reply_text or "help" in reply_text) else 0
 
-            reward = max(0.05, min(0.95, reward))
+            reward = max(0.005, min(0.994, reward))
 
         return {
             "observation": Observation(
