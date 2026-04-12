@@ -1,29 +1,24 @@
 name: email-triage-env
 version: 1.0
-description: Email triage environment
+description: Email triage environment for task-based RL with graded evaluation
 
 tasks:
   - name: easy_spam
     description: Simple spam classification task
-    grading: enabled
-    grader_module: env.graders
-    grader_function: grade_easy_spam
-    
   - name: medium_meeting
     description: Medium difficulty meeting classification task
-    grading: enabled
-    grader_module: env.graders
-    grader_function: grade_medium_meeting
-    
   - name: hard_multi
     description: Hard difficulty multi-intent classification task
-    grading: enabled
-    grader_module: env.graders
-    grader_function: grade_hard_multi
-    
   - name: support_request
     description: Support request classification task
-    grading: enabled
-    grader_module: env.graders
-    grader_function: grade_support_request
+
+grading:
+  enabled: true
+  type: task-based
+  tasks_with_graders:
+    - easy_spam
+    - medium_meeting
+    - hard_multi
+    - support_request
+
 

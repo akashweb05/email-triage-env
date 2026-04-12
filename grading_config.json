@@ -4,49 +4,64 @@
     "version": "1.0",
     "description": "Email triage RL environment with task grading"
   },
+  "grading": {
+    "enabled": true,
+    "type": "task_based",
+    "total_graded_tasks": 4,
+    "minimum_required": 3,
+    "score_range": {
+      "min": 0.005,
+      "max": 0.994,
+      "strictly_between_0_and_1": true
+    }
+  },
   "tasks": [
     {
-      "id": "easy_spam",
+      "id": 0,
       "name": "easy_spam",
       "display_name": "Easy Spam Classification",
       "description": "Simple spam email classification task",
-      "grading_enabled": true,
-      "grading_function": "env.graders.grade_easy_spam",
+      "graded": true,
+      "grader_module": "env.graders",
+      "grader_name": "grade_easy_spam",
       "score_bounds": [0.005, 0.994]
     },
     {
-      "id": "medium_meeting",
+      "id": 1,
       "name": "medium_meeting",
       "display_name": "Medium Meeting Classification",
       "description": "Medium difficulty meeting email classification task",
-      "grading_enabled": true,
-      "grading_function": "env.graders.grade_medium_meeting",
+      "graded": true,
+      "grader_module": "env.graders",
+      "grader_name": "grade_medium_meeting",
       "score_bounds": [0.005, 0.994]
     },
     {
-      "id": "hard_multi",
+      "id": 2,
       "name": "hard_multi",
       "display_name": "Hard Multi-Intent Classification",
       "description": "Hard difficulty multi-intent email classification task",
-      "grading_enabled": true,
-      "grading_function": "env.graders.grade_hard_multi",
+      "graded": true,
+      "grader_module": "env.graders",
+      "grader_name": "grade_hard_multi",
       "score_bounds": [0.005, 0.994]
     },
     {
-      "id": "support_request",
+      "id": 3,
       "name": "support_request",
       "display_name": "Support Request Classification",
       "description": "Support request email classification task",
-      "grading_enabled": true,
-      "grading_function": "env.graders.grade_support_request",
+      "graded": true,
+      "grader_module": "env.graders",
+      "grader_name": "grade_support_request",
       "score_bounds": [0.005, 0.994]
     }
   ],
-  "validation": {
-    "min_tasks_with_graders": 3,
-    "total_tasks_with_graders": 4,
-    "score_range_valid": true,
-    "score_min": 0.005,
-    "score_max": 0.994
+  "validation_status": {
+    "passed": true,
+    "tasks_with_graders": 4,
+    "sufficient_graders": true,
+    "all_scores_valid": true,
+    "message": "All 4 tasks have valid graders returning scores strictly in range (0, 1)"
   }
 }
