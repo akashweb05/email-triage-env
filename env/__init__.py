@@ -2,7 +2,7 @@
 
 from env.models import Observation, Action
 from env.environment import EmailTriageEnv
-from env.tasks import TASKS
+from env.tasks import TASKS, GRADED_TASKS
 from env.graders import (
     GRADERS,
     grade_easy_spam,
@@ -16,10 +16,12 @@ __all__ = [
     "Observation", 
     "Action",
     "TASKS",
+    "GRADED_TASKS",
     "GRADERS",
     "grade_easy_spam",
     "grade_medium_meeting",
     "grade_hard_multi",
     "grade_support_request",
 ]
+
 
